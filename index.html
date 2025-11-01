@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Pursuit - AI Learning Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    
+    <div id="ui-overlay">
+        <div id="restart-button" class="hidden">
+            <button id="restart-btn">Spacebar to Restart</button>
+        </div>
+        
+        <div id="ability-ui">
+            <div class="ability-container">
+                <div id="timer-bar-container">
+                    <div id="timer-bar-fill"></div>
+                    <div class="timer-tick" style="left: calc((64px + 8px) * 0 + 64px);"></div>
+                    <div class="timer-tick" style="left: calc((64px + 8px) * 1 + 64px);"></div>
+                    <div class="timer-tick" style="left: calc((64px + 8px) * 2 + 64px);"></div>
+                    <div class="timer-tick" style="left: calc((64px + 8px) * 3 + 64px);"></div>
+                    <div class="timer-tick" style="left: calc((64px + 8px) * 4 + 64px);"></div>
+                    <div class="timer-tick" style="left: calc((64px + 8px) * 5 + 64px);"></div>
+                    <div class="timer-tick" style="left: calc((64px + 8px) * 6 + 64px);"></div>
+                </div>
+                <div class="ability-slots">
+                    <div class="ability-slot" id="projectile-ability">
+                        <div class="ability-keybind">Q</div>
+                        <div class="ability-icon">🎯</div>
+                        <div class="cooldown-overlay"></div>
+                        <div class="cooldown-timer"></div>
+                    </div>
+                    <div class="ability-slot locked" id="dash-ability">
+                        <div class="ability-keybind">W</div>
+                        <div class="ability-icon">⚡</div>
+                        <div class="lock-overlay"></div>
+                        <div class="cooldown-overlay"></div>
+                        <div class="cooldown-timer"></div>
+                    </div>
+                    <div class="ability-slot locked" id="ability-placeholder-1">
+                        <div class="ability-keybind">E</div>
+                        <div class="ability-icon">🔒</div>
+                        <div class="lock-overlay"></div>
+                        <div class="cooldown-overlay"></div>
+                        <div class="cooldown-timer"></div>
+                    </div>
+                    <div class="ability-slot locked" id="ability-placeholder-2">
+                        <div class="ability-keybind">R</div>
+                        <div class="ability-icon">🔒</div>
+                        <div class="lock-overlay"></div>
+                        <div class="cooldown-overlay"></div>
+                        <div class="cooldown-timer"></div>
+                    </div>
+                    <div class="ability-slot locked" id="ability-placeholder-3">
+                        <div class="ability-keybind">T</div>
+                        <div class="ability-icon">🔒</div>
+                        <div class="lock-overlay"></div>
+                    </div>
+                    <div class="ability-slot locked" id="ability-placeholder-4">
+                        <div class="ability-keybind">Y</div>
+                        <div class="ability-icon">🔒</div>
+                        <div class="lock-overlay"></div>
+                    </div>
+                    <div class="ability-slot locked" id="ability-placeholder-5">
+                        <div class="ability-keybind">U</div>
+                        <div class="ability-icon">🔒</div>
+                        <div class="lock-overlay"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>

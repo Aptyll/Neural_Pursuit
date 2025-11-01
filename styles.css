@@ -1,0 +1,328 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #0a0a0a;
+    color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    overflow: hidden;
+    position: relative;
+}
+
+#gameCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: none; /* Hide default cursor */
+}
+
+#ui-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+#instructions {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 40px;
+    border-radius: 16px;
+    border: 1px solid #222;
+    backdrop-filter: blur(20px);
+    pointer-events: all;
+    max-width: 400px;
+}
+
+#instructions h2 {
+    font-size: 32px;
+    font-weight: 200;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    background: linear-gradient(45deg, #4a9eff, #ff4a4a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+#instructions p {
+    margin: 10px 0;
+    color: #999;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+#start-btn {
+    margin-top: 30px;
+    padding: 12px 30px;
+    background: linear-gradient(45deg, #4a9eff, #3a7ed8);
+    border: none;
+    border-radius: 25px;
+    color: white;
+    font-size: 16px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    pointer-events: all;
+}
+
+#start-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(74, 158, 255, 0.4);
+}
+
+#start-btn:active {
+    transform: translateY(0);
+}
+
+/* Restart Button */
+#restart-button {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: all;
+    z-index: 1000;
+}
+
+#restart-btn {
+    padding: 20px 40px;
+    background: linear-gradient(to bottom, rgba(74, 158, 255, 0.25) 0%, rgba(74, 158, 255, 0.15) 100%);
+    border: 2px solid rgba(74, 158, 255, 0.5);
+    border-radius: 12px;
+    color: #4a9eff;
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 8px 32px rgba(74, 158, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+#restart-btn:hover {
+    background: linear-gradient(to bottom, rgba(74, 158, 255, 0.35) 0%, rgba(74, 158, 255, 0.25) 100%);
+    border-color: rgba(74, 158, 255, 0.7);
+    box-shadow: 0 12px 40px rgba(74, 158, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+}
+
+#restart-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(74, 158, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Ability UI - League of Legends Style */
+#ability-ui {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: all;
+}
+
+.ability-container {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.85) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px 16px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Timer Bar */
+#timer-bar-container {
+    position: relative;
+    width: calc((64px + 8px) * 7 - 8px);
+    height: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+    overflow: visible;
+    pointer-events: none;
+}
+
+#timer-bar-fill {
+    position: relative;
+    height: 100%;
+    width: 0%;
+    background: #ff4a4a;
+    border-radius: 5px;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px rgba(255, 74, 74, 0.5), 0 0 20px rgba(255, 74, 74, 0.3);
+    overflow: hidden;
+}
+
+.timer-tick {
+    position: absolute;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.ability-slots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+}
+
+.ability-slot {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(13, 13, 13, 0.9) 100%);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    cursor: default;
+    flex-shrink: 0;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.ability-slot::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 4px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.ability-slot.active {
+    border-color: rgba(255, 74, 74, 0.6);
+    box-shadow: 0 0 16px rgba(255, 74, 74, 0.4), inset 0 1px 2px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(135deg, rgba(255, 74, 74, 0.15) 0%, rgba(13, 13, 13, 0.9) 100%);
+}
+
+.ability-slot.active::before {
+    opacity: 1;
+}
+
+.ability-slot.cooldown {
+    border-color: rgba(255, 255, 255, 0.08);
+    background: linear-gradient(135deg, rgba(13, 13, 13, 0.95) 0%, rgba(0, 0, 0, 0.95) 100%);
+}
+
+.ability-slot.locked {
+    border-color: rgba(20, 20, 20, 0.8);
+    background: linear-gradient(135deg, rgba(13, 13, 13, 0.95) 0%, rgba(0, 0, 0, 0.95) 100%);
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
+.ability-slot.locked:hover {
+    opacity: 0.5;
+}
+
+.ability-keybind {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 0;
+    z-index: 4;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.ability-slot.locked .ability-keybind {
+    opacity: 0.5;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.ability-icon {
+    font-size: 32px;
+    color: #ff4a4a;
+    transition: all 0.2s ease;
+    z-index: 2;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.ability-slot.cooldown .ability-icon {
+    filter: brightness(0.3) grayscale(0.5);
+}
+
+.ability-slot.locked .ability-icon {
+    color: #333;
+    filter: grayscale(100%) brightness(0.3);
+}
+
+.cooldown-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    background: conic-gradient(from 0deg, rgba(0, 0, 0, 0.9) var(--progress), transparent var(--progress));
+    transition: all 0.1s ease;
+    z-index: 1;
+}
+
+.lock-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.95) 100%);
+    z-index: 1;
+}
+
+.cooldown-timer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 0.8);
+    z-index: 3;
+    letter-spacing: 0;
+}
